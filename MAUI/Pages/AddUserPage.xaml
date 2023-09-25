@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:MAUI.ViewModel"
+             x:Class="MAUI.AddUserPage"
+             Title="Add User">
+    <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Green" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+            EventName="Appearing"
+             Command="{Binding GetSubscriptionTypesCommand}"  
+            />
+    </ContentPage.Behaviors>
+    <VerticalStackLayout
+        Spacing="25"
+        Padding="30,0"
+        Margin="0.25">
+        
+        <Label Text="Name" />
+        <Entry Text="{Binding Name}" ClearButtonVisibility="WhileEditing">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior
+                    x:Name="nameValidator"
+                    RegexPattern="/^[a-z ,.'-]+$/i"
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnAttaching,ValidateOnValueChanged"
+                    MinimumLength="1"
+                    MaximumLength="3"/>
+            </Entry.Behaviors>
+        </Entry>
+        <Label Text="Age" />
+        <Entry Text="{Binding Age}" Keyboard="Numeric" ClearButtonVisibility="WhileEditing">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior 
+                     x:Name="ageValidator"
+                    RegexPattern="^[1-9][0-9]?$"
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnAttaching,ValidateOnValueChanged"
+                    MinimumLength="1"
+                    MaximumLength="3"/>
+            </Entry.Behaviors>
+        </Entry>
+        <Label Text="Days" />
+        <Entry Text="{Binding DaysRemaining}" Keyboard="Numeric" ClearButtonVisibility="WhileEditing">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior 
+                     x:Name="daysRemainingValidator"
+                    RegexPattern="^[1-9][0-9]?$"
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnAttaching,ValidateOnValueChanged"
+                    MinimumLength="0"
+                    MaximumLength="30"/>
+            </Entry.Behaviors>
+        </Entry>
+        <Label Text="Phone Number" />
+        <Entry Text="{Binding PhoneNumber}" Keyboard="Numeric" ClearButtonVisibility="WhileEditing">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior 
+                     x:Name="phoneNumberValidator"
+                    RegexPattern="^[0-9]*$"
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnAttaching,ValidateOnValueChanged"
+                    MinimumLength="11"
+                    MaximumLength="12"/>
+            </Entry.Behaviors>
+        </Entry>
+        <Label Text="IsPaid" />
+        <VerticalStackLayout RadioButtonGroup.GroupName="Paid" RadioButtonGroup.SelectedValue="{Binding IsPaid}" >
+            <RadioButton Content="True" Value="True"/>
+            <RadioButton Content="False" Value="False"/>
+        </VerticalStackLayout>
+
+        <Picker Title="Select a subscription"
+        ItemsSource="{Binding SubscriptionTypes}"
+        ItemDisplayBinding="{Binding SubscriptionTypeName}" 
+         SelectedItem="{Binding SelectedSubscriptionType}"/>
+        <Button Text="Confirm" Command="{Binding AddUserCommand}"/>
+        
+    </VerticalStackLayout>
+</ContentPage>

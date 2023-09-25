@@ -1,0 +1,10 @@
+﻿@GymAPP.API_HostAddress = https://localhost:7270
+
+POST {{GymAPP.API_HostAddress}}/api/Users
+Content-Type: application/json
+
+{
+  //UserDTO
+}
+
+###

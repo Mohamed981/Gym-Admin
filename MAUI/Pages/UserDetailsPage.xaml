@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MAUI.UserDetailsPage"
+             Title="User Details">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+            EventName="Appearing"
+            Command="{Binding GetUserCommand}"  />
+    </ContentPage.Behaviors>
+    <VerticalStackLayout >
+        <Label Text="Name" />
+        <Entry Text="{Binding User.UserName}" ClearButtonVisibility="WhileEditing"/>
+        <Label Text="Age" />
+        <Entry Text="{Binding User.Age}" Keyboard="Numeric" ClearButtonVisibility="WhileEditing"/>
+        <Label Text="Days Remaining" />
+        <Entry Text="{Binding User.DaysRemaining}" Keyboard="Numeric" ClearButtonVisibility="WhileEditing"/>
+        <Label Text="Phone Number" />
+        <Entry Text="{Binding User.PhoneNumber}" Keyboard="Numeric" ClearButtonVisibility="WhileEditing"/>
+        <Label Text="IsPaid" />
+        <VerticalStackLayout RadioButtonGroup.GroupName="Paid" RadioButtonGroup.SelectedValue="{Binding IsPaid}" >
+            <RadioButton Content="True" Value="True" IsChecked="{Binding User.IsPaid}"/>
+            <RadioButton Content="False" Value="False" IsChecked="{Binding User.IsPaid}"/>
+        </VerticalStackLayout>
+
+        <Picker Title="{Binding User.SubscriptionTypeName}"
+        ItemsSource="{Binding SubTypes}"
+        ItemDisplayBinding="{Binding SubscriptionTypeName}" 
+         SelectedItem="{Binding SelectedSubType}"/>
+        <Button Text="Confirm" Command="{Binding UpdateUserCommand}"/>
+
+    </VerticalStackLayout>
+</ContentPage>
